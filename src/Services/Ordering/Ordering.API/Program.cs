@@ -1,6 +1,12 @@
 using Common.Logging;
+using Ordering.API.Extensions;
+using Ordering.Application.Features;
 using Ordering.Infrastructure;
 using Serilog;
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog(Serilogger.Configure);
@@ -9,13 +15,10 @@ Log.Information("Start Ordering API up");
 
 try
 {
-    builder.Host.UseSerilog((ctx, lc) => lc
-            .WriteTo.Console(
-                outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}-{NewLine}-{Message:lj}-{NewLine}-{Exception}-{NewLine}")
-            .Enrich.FromLogContext()
-            .ReadFrom.Configuration(ctx.Configuration));
-
     // Add services to the container.
+    builder.Host.AddAppConfigurations();
+    builder.Services.AddConfigurationSettings(builder.Configuration);
+    builder.Services.AddApplicationServices();
     builder.Services.AddInfrastructureServices(builder.Configuration);
 
     builder.Services.AddControllers();
@@ -43,9 +46,7 @@ try
     //app.UseHttpsRedirection(); //production only
 
     app.UseAuthorization();
-
     app.MapControllers();
-
     app.Run();
 }
 catch (Exception ex)
