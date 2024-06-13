@@ -14,10 +14,16 @@ namespace Ordering.Infrastructure.Repository
 
         }
 
-        public async Task<long> CreateOrder(Order order)
+        public async Task<Order> CreateOrder(Order order)
         {
-            var result = await CreateAsync(order);
-            return result;
+            await CreateAsync(order);
+            return order;
+        }
+
+        public async Task<Order> UpdateOrder(Order order)
+        {
+            await UpdateAsync(order);
+            return order;
         }
 
         public async Task<IEnumerable<Order>> GetOrdersByUserName(string userName) =>
