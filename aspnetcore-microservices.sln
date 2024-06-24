@@ -8,7 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		src\docker-compose.override.yml = src\docker-compose.override.yml
 		src\docker-compose.yml = src\docker-compose.yml
 		global.json = global.json
-		..\..\Desktop\README.md = ..\..\Desktop\README.md
+		src\README.md = src\README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7D3B3B3F-9373-4E9E-AB1A-F5CACFB61034}"
