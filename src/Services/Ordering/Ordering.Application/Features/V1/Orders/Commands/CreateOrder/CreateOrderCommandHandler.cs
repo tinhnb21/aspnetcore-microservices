@@ -32,7 +32,7 @@ namespace Ordering.Application.Features.V1.Orders.Commands.CreateOrder
             var orderEntity = _mapper.Map<Order>(request);
             var addedOrder = await _orderRepository.CreateOrder(orderEntity);
             await _orderRepository.SaveChangesAsync();
-            _logger.Information($"Order {orderEntity.Id} was successfully created.");
+            _logger.Information($"Order {orderEntity.Id} - Document No: {orderEntity.DocumentNo} was successfully created.");
 
             SendEmailAsync(addedOrder, cancellationToken);
 
