@@ -29,16 +29,33 @@ namespace Infrastructure.Common
 
         public Task RollbackTransactionAsync() => _dbContext.Database.RollbackTransactionAsync();
 
+        public void Create(T entity) => _dbContext.Set<T>().Add(entity);
+
         public async Task<K> CreateAsync(T entity)
         {
             await _dbContext.Set<T>().AddAsync(entity);
             return entity.Id;
         }
 
+        public IList<K> CreateList(IEnumerable<T> entities)
+        {
+            _dbContext.Set<T>().AddRange(entities);
+            return entities.Select(x => x.Id).ToList();
+        }
+
         public async Task<IList<K>> CreateListAsync(IEnumerable<T> entities)
         {
             await _dbContext.Set<T>().AddRangeAsync(entities);
+            await SaveChangesAsync();
             return entities.Select(x => x.Id).ToList();
+        }
+
+        public void Update(T entity)
+        {
+            if (_dbContext.Entry(entity).State == EntityState.Unchanged) return;
+
+            T exist = _dbContext.Set<T>().Find(entity.Id);
+            _dbContext.Entry(exist).CurrentValues.SetValues(entity);
         }
 
         public Task UpdateAsync(T entity)
@@ -51,13 +68,19 @@ namespace Infrastructure.Common
             return Task.CompletedTask;
         }
 
+        public void UpdateList(IEnumerable<T> entities) => _dbContext.Set<T>().AddRange(entities);
+
         public Task UpdateListAsync(IEnumerable<T> entities) => _dbContext.Set<T>().AddRangeAsync(entities);
+
+        public void Delete(T entity) => _dbContext.Set<T>().Remove(entity);
 
         public Task DeleteAsync(T entity)
         {
             _dbContext.Set<T>().Remove(entity);
             return Task.CompletedTask;
         }
+
+        public void DeleteList(IEnumerable<T> entities) => _dbContext.Set<T>().RemoveRange(entities);
 
         public Task DeleteListAsync(IEnumerable<T> entities)
         {
