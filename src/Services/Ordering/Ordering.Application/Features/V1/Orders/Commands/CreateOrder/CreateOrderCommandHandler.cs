@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
-using Contracts.Services;
 using MediatR;
 using Ordering.Application.Common.Interfaces;
 using Ordering.Domain.Entities;
 using Serilog;
 using Shared.SeedWork;
-using Shared.Services.Email;
 
 namespace Ordering.Application.Features.V1.Orders.Commands.CreateOrder
 {
