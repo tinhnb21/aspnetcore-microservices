@@ -1,6 +1,8 @@
-﻿namespace Shared.DTOs.Inventory
+﻿using Shared.SeedWork;
+
+namespace Shared.DTOs.Inventory
 {
-    public class GetInventoryPagingQuery
+    public class GetInventoryPagingQuery : PagingRequestParameters
     {
         public string ItemNo => _itemNo;
 
