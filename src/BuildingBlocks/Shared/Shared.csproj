@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="SeedWork\PagedList.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="DTOs\Customer\" />
   </ItemGroup>
 
