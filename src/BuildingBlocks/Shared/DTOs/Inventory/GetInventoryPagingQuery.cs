@@ -4,7 +4,7 @@ namespace Shared.DTOs.Inventory
 {
     public class GetInventoryPagingQuery : PagingRequestParameters
     {
-        public string ItemNo => _itemNo;
+        public string? ItemNo => _itemNo;
 
         private string _itemNo;
 

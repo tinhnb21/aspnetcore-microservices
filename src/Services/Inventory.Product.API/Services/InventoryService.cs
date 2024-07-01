@@ -28,7 +28,7 @@ namespace Inventory.Product.API.Services
             return result;
         }
 
-        public async Task<IEnumerable<InventoryEntryDto>> GetAllByItemNoPagingAsync(GetInventoryPagingQuery query)
+        public async Task<PagedList<InventoryEntryDto>> GetAllByItemNoPagingAsync(GetInventoryPagingQuery query)
         {
             var filterSearchTerm = Builders<InventoryEntry>.Filter.Empty;
             var filterItemNo = Builders<InventoryEntry>.Filter.Eq(x => x.ItemNo, query.ItemNo);
@@ -58,7 +58,7 @@ namespace Inventory.Product.API.Services
         {
             var itemToAdd = new InventoryEntry(ObjectId.GenerateNewId().ToString())
             {
-                ItemNo = model.ItemNo,
+                ItemNo = itemNo,
                 Quantity = model.Quantity,
                 DocumentType = model.DocumentType
             };
