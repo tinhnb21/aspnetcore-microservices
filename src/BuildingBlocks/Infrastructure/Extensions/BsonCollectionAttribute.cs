@@ -1,4 +1,4 @@
-﻿namespace Inventory.Product.API.Extensions
+﻿namespace Infrastructure.Extensions
 {
     //attribute class
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
