@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Basket.API.Entities;
+using Basket.API.GrpcServices;
 using Basket.API.Repositories.Interfaces;
 using EventBus.Messages.IntergrationEvents.Events;
 using MassTransit;
@@ -17,12 +18,14 @@ namespace Basket.API.Controllers
         private readonly IBasketRepository _basketRepository;
         private readonly IPublishEndpoint _publishEndpoint;
         private readonly IMapper _mapper;
+        private readonly StockItemGrpcService _stockItemGrpcService;
 
-        public BasketsController(IBasketRepository basketRepository, IPublishEndpoint publishEndpoint, IMapper mapper)
+        public BasketsController(IBasketRepository basketRepository, IPublishEndpoint publishEndpoint, IMapper mapper, StockItemGrpcService stockItemGrpcService)
         {
-            _basketRepository = basketRepository;
-            _publishEndpoint = publishEndpoint;
-            _mapper = mapper;
+            _basketRepository = basketRepository ?? throw new ArgumentNullException(nameof(basketRepository));
+            _publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _stockItemGrpcService = stockItemGrpcService ?? throw new ArgumentNullException(nameof(stockItemGrpcService));
         }
 
         [HttpGet("{username}", Name = "GetBasket")]
@@ -37,9 +40,16 @@ namespace Basket.API.Controllers
         [ProducesResponseType(typeof(Cart), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateBasket([FromBody] Cart cart)
         {
+            //Communicate with Inventory.Grpc and check quantity available of products
+            foreach (var item in cart.Items)
+            {
+                var stock = await _stockItemGrpcService.GetStock(item.ItemNo);
+                item.SetAvailableQuantity(stock.Quantity);
+            }
+
             var options = new DistributedCacheEntryOptions()
-                .SetAbsoluteExpiration(DateTime.UtcNow.AddHours(1))
-                .SetSlidingExpiration(TimeSpan.FromMinutes(5));
+                .SetAbsoluteExpiration(DateTime.UtcNow.AddHours(10));
+                //.SetSlidingExpiration(TimeSpan.FromMinutes(50));
 
             var result = await _basketRepository.UpdateBasket(cart, options);
             return Ok(result);
