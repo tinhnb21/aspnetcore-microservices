@@ -10,10 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Protos\stock.proto" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.2" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.6" />
@@ -36,11 +32,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\Inventory\Inventory.Grpc\Protos\stock.proto">
-	  <Link>Protos\stock.proto</Link>
-	  <GrpcService>Client</GrpcService>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Protobuf>
+	  <Protobuf Include="Protos\stockItem.proto">
+		  <GrpcServices>Client</GrpcServices>
+		  <CopyToOutputDirectory>PreserverNewest</CopyToOutputDirectory>
+	  </Protobuf>
   </ItemGroup>
 
 </Project>
