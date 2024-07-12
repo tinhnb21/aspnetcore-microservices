@@ -25,7 +25,8 @@ namespace Product.API.Persistence
                     Name = "Esprit",
                     Summary = "Nondisplaced fracture of greater trochanter of right femur",
                     Description = "Nondisplaced fracture of greater trochanter of right femur",
-                    Price = (decimal)177940.49
+                    Price = (decimal)177940.49,
+                    StockQuantity = 100
                 },
                 new()
                 {
@@ -33,7 +34,8 @@ namespace Product.API.Persistence
                     Name = "CTS",
                     Summary = "Carbuncle of trunk",
                     Description = "Carburncle of trunk",
-                    Price = (decimal)114728.23
+                    Price = (decimal)114728.23,
+                    StockQuantity = 200
                 }
             };
         }
