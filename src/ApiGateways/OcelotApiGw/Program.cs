@@ -31,14 +31,23 @@ try
 
     //app.UseMiddleware<errorwrappingmiddleware>();
 
+    app.UseAuthentication();
+    app.UseRouting();
+
     //app.UseHttpsRedirection();
 
     app.UseAuthorization();
 
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapGet("/", async context =>
+        {
+            await context.Response.WriteAsync($"Hello members: {builder.Environment.ApplicationName}");
+        });
+    });
+
     app.MapControllers();
-
     await app.UseOcelot();
-
     app.Run();
 }
 catch (Exception ex)

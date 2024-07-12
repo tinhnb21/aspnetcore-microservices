@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Common.Logging;
+using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace Product.API.Extensions
 {
