@@ -40,13 +40,21 @@ try
 
     app.UseEndpoints(endpoints =>
     {
-        endpoints.MapGet("/", async context =>
+        endpoints.MapGet("/", context =>
         {
-            await context.Response.WriteAsync($"Hello members: {builder.Environment.ApplicationName}");
+            //await context.Response.WriteAsync($"Hello members: {builder.Environment.ApplicationName}");
+            context.Response.Redirect("swagger/index.html");
+            return Task.CompletedTask;
         });
     });
 
     app.MapControllers();
+
+    //app.UseSwaggerForOcelotUI(opt =>
+    //{
+    //    opt.PathToSwaggerGenerator = "/swagger/docs";
+    //});
+
     await app.UseOcelot();
     app.Run();
 }
